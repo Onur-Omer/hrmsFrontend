@@ -1,9 +1,45 @@
 import { useFormik } from "formik";
 import React from "react";
 import { Form } from "semantic-ui-react";
-import { Grid, Header, Segment,Button } from "semantic-ui-react";
+import { Grid, Header, Segment, Button } from "semantic-ui-react";
+import CvService from "../services/CvService";
 
 export default function CvAdd() {
+  let cvService = new CvService();
+
+  const cvAddSchema = Yup.object().shape({
+    article: Yup.string().required("Bu alanın doldurulması zorunludur"),
+    github: Yup.string(),
+    linkedIn: Yup.string(),
+    photo: Yup.string(),
+
+    //---
+    position: Yup.string().required("Bu alanın doldurulması zorunludur"),
+    workplaceName: Yup.string().required("Bu alanın doldurulması zorunludur"),
+    finishDate: Yup.date()
+      .nullable()
+      .required("Bu alanın doldurulması zorunludur"),
+    startDate: Yup.date().required("Bu alanın doldurulması zorunludur"),
+
+    //----
+    language: Yup.string().required("Bu alanın doldurulması zorunludur"),
+    level: Yup.string()
+      .required("Bu alanın doldurulması zorunludur")
+      .min(1, "1-5")
+      .max(5, "1-5"),
+
+    //------
+    usedLanguages: Yup.string().required("Bu alanın doldurulması zorunludur"),
+
+    //------
+    department: Yup.string().required("Bu alanın doldurulması zorunludur"),
+    finishDateSchool: Yup.date()
+      .nullable()
+      .required("Bu alanın doldurulması zorunludur"),
+    startDateSchool: Yup.date().required("Bu alanın doldurulması zorunludur"),
+    name: Yup.string().required("Bu alanın doldurulması zorunludur"),
+  });
+
   const formik = useFormik({
     initialValues: {
       article: "",
@@ -26,6 +62,7 @@ export default function CvAdd() {
       startDateSchool: "",
       name: "",
     },
+    validationSchema: cvAddSchema,
     onSubmit: (values) => {
       console.log(values);
       //.....
@@ -34,169 +71,70 @@ export default function CvAdd() {
     },
   });
 
+  const handleChangeSemantic = (value, fieldName) => {
+    formik.setFieldValue(fieldName, value);
+  };
+
   return (
     <div>
-      <Form onSubmit={formik.handleSubmit}>
-        <Grid stackable columns={1} centered>
-          <Grid.Column>
-            <Header as="h2" textAlign="center">
-              Hakkında
+      <Form size="large" onSubmit={formik.handleSubmit}>
+        <Grid
+          textAlign="center"
+          style={{ height: "100vh" }}
+          verticalAlign="middle"
+        >
+          <Grid.Column style={{ maxWidth: 450 }}>
+            <Header as="h2" color="teal" textAlign="center">
+              Add Your Cv
             </Header>
-            <Segment>
-              <Form.Group widths="equal">
-                <Form.Input
-                  fluid
-                  name="photo"
-                  label="Photo"
-                  placeholder="Photo"
-                  onChange={formik.handleChange}
-                />
-                <Form.Input
-                  fluid
-                  name="article"
-                  label="Hakkında"
-                  placeholder="Hakkında"
-                  onChange={formik.handleChange}
-                />
-                <Form.Input
-                  fluid
-                  name="github"
-                  label="Github"
-                  placeholder="Github"
-                  onChange={formik.handleChange}
-                />
-                <Form.Input
-                  fluid
-                  name="linkedIn"
-                  label="LinkedIn"
-                  placeholder="LinkedIn"
-                  onChange={formik.handleChange}
-                />
-              </Form.Group>
-            </Segment>
-          </Grid.Column>
+            <Segment stacked>
+              <label>
+                <b>Email</b>
+              </label>
+              <Form.Input
+                fluid
+                icon="mail"
+                iconPosition="left"
+                placeholder="E-mail adresi"
+                type="email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                name="email"
+              />
+              {formik.errors.email && formik.touched.email && (
+                <div className={"ui pointing red basic label"}>
+                  {formik.errors.email}
+                </div>
+              )}
 
-          <Grid.Column>
-            <Header as="h2" textAlign="center">
-              İş tecrübesi
-            </Header>
-            <Segment>
-              <Form.Group widths="equal">
-                <Form.Input
-                  fluid
-                  name="finishDate"
-                  label="Bitiş Tarihi"
-                  placeholder="..."
-                  onChange={formik.handleChange}
-                />
-                <Form.Input
-                  fluid
-                  name="startDate"
-                  label="Başlangıç Tarihi"
-                  placeholder="..."
-                  onChange={formik.handleChange}
-                />
-                <Form.Input
-                  fluid
-                  name="position"
-                  label="Pozisyon"
-                  placeholder="..."
-                  onChange={formik.handleChange}
-                />
-                <Form.Input
-                  fluid
-                  name="workplaceName"
-                  label="işyeri adı"
-                  placeholder="..."
-                  onChange={formik.handleChange}
-                />
-              </Form.Group>
-            </Segment>
-          </Grid.Column>
+              <label>
+                <b>Şifre</b>
+              </label>
+              <Form.Input
+                fluid
+                icon="lock"
+                iconPosition="left"
+                placeholder="Şifre"
+                type="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                name="password"
+              />
+              {formik.errors.password && formik.touched.password && (
+                <div className={"ui pointing red basic label"}>
+                  {formik.errors.password}
+                </div>
+              )}
 
-          <Grid.Column>
-            <Header as="h2" textAlign="center">
-              Yabancı dil
-            </Header>
-            <Segment>
-              <Form.Group widths="equal">
-                <Form.Input
-                  fluid
-                  name="language"
-                  label="Yabancı dil"
-                  placeholder="..."
-                  onChange={formik.handleChange}
-                />
-                <Form.Input
-                  fluid
-                  name="level"
-                  label="Level"
-                  placeholder="1-5"
-                  onChange={formik.handleChange}
-                />
-              </Form.Group>
-            </Segment>
-          </Grid.Column>
-
-          <Grid.Column>
-            <Header as="h2" textAlign="center">
-              Bilinen diller
-            </Header>
-            <Segment>
-              <Form.Group widths="equal">
-                <Form.Input
-                  fluid
-                  name="usedLanguages"
-                  label="Programlama dilleri"
-                  placeholder="c# - java"
-                  onChange={formik.handleChange}
-                />
-              </Form.Group>
-            </Segment>
-          </Grid.Column>
-
-          <Grid.Column>
-            <Header as="h2" textAlign="center">
-              Okul
-            </Header>
-            <Segment>
-              <Form.Group widths="equal">
-                <Form.Input
-                  fluid
-                  name="department"
-                  label="Bölüm"
-                  placeholder="..."
-                  onChange={formik.handleChange}
-                />
-                <Form.Input
-                  fluid
-                  name="finishDateSchool"
-                  label="Bitiş tarihi"
-                  placeholder="..."
-                  onChange={formik.handleChange}
-                />
-                <Form.Input
-                  fluid
-                  name="startDateSchool"
-                  label="Başlangıç tarihi"
-                  placeholder="..."
-                  onChange={formik.handleChange}
-                />
-                <Form.Input
-                  fluid
-                  name="name"
-                  label="Okul adı"
-                  placeholder="..."
-                  onChange={formik.handleChange}
-                />
-              </Form.Group>
+              <Button color="teal" fluid size="large" type="submit">
+                Login
+              </Button>
             </Segment>
           </Grid.Column>
         </Grid>
       </Form>
-      <Button fluid positive  onClick={formik.handleSubmit} >Ekle</Button>
     </div>
-    
   );
-  
 }
