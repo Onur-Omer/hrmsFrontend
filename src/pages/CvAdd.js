@@ -1,6 +1,7 @@
-import { useFormik } from "formik";
+import { useFormik, FieldArray, Field } from "formik";
 import React from "react";
 import { Form } from "semantic-ui-react";
+import * as Yup from "yup";
 import { Grid, Header, Segment, Button } from "semantic-ui-react";
 import CvService from "../services/CvService";
 
@@ -55,7 +56,11 @@ export default function CvAdd() {
       language: "",
       level: "",
       //--langs
-      usedLanguages: "",
+      langs: [
+        {
+          usedLanguages: "",
+        },
+      ],
       //--schools
       department: "",
       finishDateSchool: "",
@@ -84,52 +89,340 @@ export default function CvAdd() {
           verticalAlign="middle"
         >
           <Grid.Column style={{ maxWidth: 450 }}>
-            <Header as="h2" color="teal" textAlign="center">
-              Add Your Cv
-            </Header>
             <Segment stacked>
               <label>
-                <b>Email</b>
+                <b>Photo</b>
               </label>
               <Form.Input
                 fluid
-                icon="mail"
+                icon="image"
                 iconPosition="left"
-                placeholder="E-mail adresi"
-                type="email"
-                value={formik.values.email}
+                type="text"
+                value={formik.values.photo}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                name="email"
+                name="photo"
               />
-              {formik.errors.email && formik.touched.email && (
+              {formik.errors.photo && formik.touched.photo && (
                 <div className={"ui pointing red basic label"}>
-                  {formik.errors.email}
+                  {formik.errors.photo}
                 </div>
               )}
 
               <label>
-                <b>Şifre</b>
+                <b>Github</b>
               </label>
               <Form.Input
                 fluid
-                icon="lock"
+                icon="github"
                 iconPosition="left"
-                placeholder="Şifre"
-                type="password"
-                value={formik.values.password}
+                placeholder="Github"
+                type="text"
+                value={formik.values.github}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                name="password"
+                name="github"
               />
-              {formik.errors.password && formik.touched.password && (
+              {formik.errors.github && formik.touched.github && (
                 <div className={"ui pointing red basic label"}>
-                  {formik.errors.password}
+                  {formik.errors.github}
                 </div>
               )}
 
+              <label>
+                <b>LinkedIn</b>
+              </label>
+              <Form.Input
+                fluid
+                icon="linkedin"
+                iconPosition="left"
+                placeholder="LinkedIn"
+                type="text"
+                value={formik.values.linkedIn}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                name="linkedIn"
+              />
+              {formik.errors.linkedIn && formik.touched.linkedIn && (
+                <div className={"ui pointing red basic label"}>
+                  {formik.errors.linkedIn}
+                </div>
+              )}
+
+              <label>
+                <b>Article</b>
+              </label>
+              <Form.Input
+                fluid
+                icon="paragraph"
+                iconPosition="left"
+                placeholder="About you..."
+                type="text"
+                value={formik.values.article}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                name="article"
+              />
+              {formik.errors.article && formik.touched.article && (
+                <div className={"ui pointing red basic label"}>
+                  {formik.errors.article}
+                </div>
+              )}
+
+              <Header as="h4" color="blue" textAlign="center">
+                Experiances
+              </Header>
+
+              <label>
+                <b>Workplace Name</b>
+              </label>
+              <Form.Input
+                fluid
+                icon="home"
+                iconPosition="left"
+                placeholder="Workplace Name"
+                type="text"
+                value={formik.values.workplaceName}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                name="workplaceName"
+              />
+              {formik.errors.workplaceName && formik.touched.workplaceName && (
+                <div className={"ui pointing red basic label"}>
+                  {formik.errors.workplaceName}
+                </div>
+              )}
+
+              <label>
+                <b>Position</b>
+              </label>
+              <Form.Input
+                fluid
+                icon="osi"
+                iconPosition="left"
+                placeholder="Position"
+                type="text"
+                value={formik.values.position}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                name="position"
+              />
+              {formik.errors.position && formik.touched.position && (
+                <div className={"ui pointing red basic label"}>
+                  {formik.errors.position}
+                </div>
+              )}
+
+              <label>
+                <b>Start Date</b>
+              </label>
+              <Form.Input
+                fluid
+                icon="calendar"
+                iconPosition="left"
+                placeholder="Start Date"
+                type="date"
+                value={formik.values.startDate}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                name="startDate"
+              />
+              {formik.errors.startDate && formik.touched.startDate && (
+                <div className={"ui pointing red basic label"}>
+                  {formik.errors.startDate}
+                </div>
+              )}
+
+              <label>
+                <b>Finish Date</b>
+              </label>
+              <Form.Input
+                fluid
+                icon="calendar"
+                iconPosition="left"
+                placeholder="Finish Date"
+                type="date"
+                value={formik.values.finishDate}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                name="finishDate"
+              />
+              {formik.errors.finishDate && formik.touched.finishDate && (
+                <div className={"ui pointing red basic label"}>
+                  {formik.errors.finishDate}
+                </div>
+              )}
+
+              <Header as="h4" color="blue" textAlign="center">
+                Foreign Languages
+              </Header>
+
+              <label>
+                <b>Language</b>
+              </label>
+              <Form.Input
+                fluid
+                icon="language"
+                iconPosition="left"
+                placeholder="Language"
+                type="text"
+                value={formik.values.language}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                name="language"
+              />
+              {formik.errors.language && formik.touched.language && (
+                <div className={"ui pointing red basic label"}>
+                  {formik.errors.language}
+                </div>
+              )}
+
+              <label>
+                <b>Level</b>
+              </label>
+              <Form.Input
+                fluid
+                icon="arrow right"
+                iconPosition="left"
+                placeholder="Level"
+                type="number"
+                value={formik.values.level}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                name="level"
+              />
+              {formik.errors.level && formik.touched.level && (
+                <div className={"ui pointing red basic label"}>
+                  {formik.errors.level}
+                </div>
+              )}
+
+              <Header as="h4" color="blue" textAlign="center">
+                Programing Languages
+              </Header>
+
+              <label>
+                <b>Languages</b>
+              </label>
+
+              {formik.values.langs.map((lang, index) => (
+                <Form.Input
+                  fluid
+                  icon="js"
+                  iconPosition="left"
+                  placeholder="Languages"
+                  type="email"
+                  value={formik.values.usedLanguages}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  name="usedLanguages"
+                />
+              ))}
+
+              <button
+                type="button"
+                className="secondary"
+                onClick={() => formik.values.langs.push({ usedLanguages: "" })}
+              >
+                Add
+              </button>
+
+              <button
+                type="button"
+                className="secondary"
+                onClick={() => formik.values.langs.pop()}
+              >
+                Delete
+              </button>
+
+              <Header as="h4" color="blue" textAlign="center">
+                Education
+              </Header>
+
+              <label>
+                <b>School</b>
+              </label>
+              <Form.Input
+                fluid
+                icon="student"
+                iconPosition="left"
+                placeholder="School Name"
+                type="text"
+                value={formik.values.name}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                name="name"
+              />
+              {formik.errors.name && formik.touched.name && (
+                <div className={"ui pointing red basic label"}>
+                  {formik.errors.name}
+                </div>
+              )}
+
+              <label>
+                <b>Department</b>
+              </label>
+              <Form.Input
+                fluid
+                icon="idea"
+                iconPosition="left"
+                placeholder="Department"
+                type="text"
+                value={formik.values.department}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                name="department"
+              />
+              {formik.errors.department && formik.touched.department && (
+                <div className={"ui pointing red basic label"}>
+                  {formik.errors.department}
+                </div>
+              )}
+
+              <label>
+                <b>Start Date</b>
+              </label>
+              <Form.Input
+                fluid
+                icon="calendar"
+                iconPosition="left"
+                placeholder="Start Date"
+                type="date"
+                value={formik.values.startDateSchool}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                name="startDateSchool"
+              />
+              {formik.errors.startDateSchool &&
+                formik.touched.startDateSchool && (
+                  <div className={"ui pointing red basic label"}>
+                    {formik.errors.startDateSchool}
+                  </div>
+                )}
+
+              <label>
+                <b>Finish Date</b>
+              </label>
+              <Form.Input
+                fluid
+                icon="calendar"
+                iconPosition="left"
+                placeholder="Finish Date"
+                type="date"
+                value={formik.values.finishDateSchool}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                name="finishDateSchool"
+              />
+              {formik.errors.finishDateSchool &&
+                formik.touched.finishDateSchool && (
+                  <div className={"ui pointing red basic label"}>
+                    {formik.errors.finishDateSchool}
+                  </div>
+                )}
+
               <Button color="teal" fluid size="large" type="submit">
-                Login
+                Add
               </Button>
             </Segment>
           </Grid.Column>
