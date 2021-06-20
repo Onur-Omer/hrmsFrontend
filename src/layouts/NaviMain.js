@@ -1,20 +1,26 @@
 import React from "react";
-import { Button, Dropdown, Menu } from "semantic-ui-react";
+import {  Dropdown, Menu } from "semantic-ui-react";
 
 export default function NaviMain() {
   return (
     <div>
-      <Menu size="small" inverted>
+      <Menu size="large" inverted>
         <Menu.Item name="home" />
         <Menu.Menu position="right">
-          <Menu.Item>
-            <Button primary>Login</Button>
-          </Menu.Item>
+        <Dropdown item text='Login'>
+            <Dropdown.Menu>
+              <Dropdown.Item>Employee</Dropdown.Item>
+              <Dropdown.Item>Employer</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
 
-          <Menu.Item>
-            <Button primary>Sign Up</Button>
-          </Menu.Item>
-        </Menu.Menu>
+          <Dropdown item text='Register'>
+            <Dropdown.Menu>
+              <Dropdown.Item>Employee</Dropdown.Item>
+              <Dropdown.Item>Employer</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+          </Menu.Menu>
       </Menu>
     </div>
   );

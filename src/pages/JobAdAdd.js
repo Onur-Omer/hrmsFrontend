@@ -16,6 +16,7 @@ import JobAdService from "../services/JobAdService";
 
 export default function Deneme() {
   let jobAdService = new JobAdService();
+  
   const JobAdvertAddSchema = Yup.object().shape({
     lastDate: Yup.date()
       .nullable()
