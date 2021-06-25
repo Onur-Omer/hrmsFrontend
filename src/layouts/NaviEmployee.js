@@ -4,7 +4,7 @@ import { Dropdown, Menu, Image, Container } from "semantic-ui-react";
 export default function NaviEmployee() {
   return (
     <div>
-      <Menu size="large" inverted>
+      <Menu size="massive" inverted>
         <Container >
           <Menu.Item name="home" />
 

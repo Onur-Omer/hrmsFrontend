@@ -1,16 +1,19 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import * as Yup from "yup";
-import { Button, Form, Grid, Header, Segment } from "semantic-ui-react";
-import { useFormik } from "formik";
+import { Formik, Form } from "formik";
+import { Button, Grid, Header, Segment } from "semantic-ui-react";
 import AuthService from "../services/AuthService";
+import HNumberInput from "../utilities/customFormControls/HNumberInput";
+import HTextInput from "../utilities/customFormControls/HTextInput";
+import HDateInput from "../utilities/customFormControls/HDateInput";
 
 export default function RegisterForEmployee() {
   let authService = new AuthService();
 
   const history = useHistory();
 
-  const employeeLoginSchema = Yup.object().shape({
+  const employeeRegisterSchema = Yup.object().shape({
     birthDate: Yup.date().required("Doğum Tarihi zorunludur"),
     email: Yup.string()
       .required("Email alanı zorunludur")
@@ -26,174 +29,60 @@ export default function RegisterForEmployee() {
       .min(8, "Şifre en az 8 karakter uzunlugunda olmalıdır"),
   });
 
-  const formik = useFormik({
-    initialValues: {
-      birthDate: "",
-      email: "",
-      firstName: "",
-      lastName: "",
-      identityNumber: "",
-      password: "",
-    },
-    validationSchema: employeeLoginSchema,
-    onSubmit: (values) => {
-      authService
-        .registerEmployee(values)
-        .then((result) => console.log(result.data.data));
-      //   history.push("/login")
-    },
-  });
-
-  const handleChangeSemantic = (value, fieldName) => {
-    formik.setFieldValue(fieldName, value);
+  const initialValues = {
+    birthDate: "",
+    email: "",
+    firstName: "",
+    lastName: "",
+    identityNumber: "",
+    password: "",
   };
 
   return (
-    <div>
-      <Form size="large" onSubmit={formik.handleSubmit}>
-        <Grid
-          textAlign="center"
-          style={{ height: "100vh" }}
-          verticalAlign="middle"
+    <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
+      <Grid.Column style={{ maxWidth: 450 }}>
+        <Header as="h2" color="teal" textAlign="center">
+          Register
+        </Header>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={employeeRegisterSchema}
+          onSubmit={(values) => {
+            authService
+              .RegisterEmployee(values)
+              .then((result) => console.log(result.data.data));
+          }}
         >
-          <Grid.Column style={{ maxWidth: 450 }}>
-            <Header as="h2" color="teal" textAlign="center">
-              Register
-            </Header>
-            <Segment stacked>
-              <label>
-                <b>Name</b>
-              </label>
+          <Form className="ui form">
+            <Segment>
+              <label>First Name</label>
+              <HTextInput name="firstName" placeholder="First Name" />
 
-              <Form.Input
-                fluid
-                icon="user"
-                iconPosition="left"
-                placeholder="Name"
-                type="text"
-                value={formik.values.firstName}
-                name="firstName"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.errors.firstName && formik.touched.firstName && (
-                <div className={"ui pointing red basic label"}>
-                  {formik.errors.firstName}
-                </div>
-              )}
+              <label>Last Name</label>
+              <HTextInput name="lastName" placeholder="Last Name" />
 
-              <label>
-                <b>Surname</b>
-              </label>
-              <Form.Input
-                fluid
-                icon="user"
-                iconPosition="left"
-                placeholder="Surname"
-                type="text"
-                value={formik.values.lastName}
-                name="lastName"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.errors.lastName && formik.touched.lastName && (
-                <div className={"ui pointing red basic label"}>
-                  {formik.errors.lastName}
-                </div>
-              )}
-
-              <label>
-                <b>Identity Number</b>
-              </label>
-              <Form.Input
-                fluid
-                icon="id card"
-                iconPosition="left"
-                placeholder="National Number"
-                type="text"
-                value={formik.values.identityNumber}
+              <label>National Number</label>
+              <HNumberInput
                 name="identityNumber"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                placeholder="National Number"
               />
-              {formik.errors.identityNumber &&
-                formik.touched.identityNumber && (
-                  <div className={"ui pointing red basic label"}>
-                    {formik.errors.identityNumber}
-                  </div>
-                )}
 
-              <label>
-                <b>Birthday</b>
-              </label>
-              <Form.Input
-                fluid
-                icon="calendar times"
-                iconPosition="left"
-                placeholder="Birthday"
-                type="date"
-                error={Boolean(formik.errors.birthDate)}
-                onChange={(event, data) =>
-                  handleChangeSemantic(data.value, "birthDate")
-                }
-                value={formik.values.birthDate}
-                onBlur={formik.handleBlur}
-                name="birthDate"
-              />
-              {formik.errors.birthDate && formik.touched.birthDate && (
-                <div className={"ui pointing red basic label"}>
-                  {formik.errors.birthDate}
-                </div>
-              )}
+              <label>Birthdate</label>
+              <HDateInput name="birthDate" />
 
-              <label>
-                <b>Email</b>
-              </label>
-              <Form.Input
-                fluid
-                icon="mail"
-                iconPosition="left"
-                placeholder="E-mail adresi"
-                type="email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                name="email"
-              />
-              {formik.errors.email && formik.touched.email && (
-                <div className={"ui pointing red basic label"}>
-                  {formik.errors.email}
-                </div>
-              )}
+              <label>Email</label>
+              <HTextInput name="email" placeholder="Email" />
 
-              <label>
-                <b>Password</b>
-              </label>
-              <Form.Input
-                fluid
-                icon="lock"
-                iconPosition="left"
-                placeholder="password"
-                type="password"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                name="password"
-              />
-              {formik.errors.password && formik.touched.password && (
-                <div className={"ui pointing red basic label"}>
-                  {formik.errors.password}
-                </div>
-              )}
+              <label>Password</label>
+              <HTextInput name="password" placeholder="Password" />
 
-              <Button color="teal" fluid size="large" type="submit">
-                Login
+              <Button color="green" type="submit">
+                Register
               </Button>
             </Segment>
-          </Grid.Column>
-        </Grid>
-      </Form>
-      <Button floated='right'>Right Floated</Button>
-    </div>
+          </Form>
+        </Formik>
+      </Grid.Column>
+    </Grid>
   );
 }
