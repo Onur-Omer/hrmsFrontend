@@ -1,5 +1,4 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
 import { Button, Grid, Header, Segment } from "semantic-ui-react";
@@ -11,7 +10,6 @@ import HDateInput from "../utilities/customFormControls/HDateInput";
 export default function RegisterForEmployee() {
   let authService = new AuthService();
 
-  const history = useHistory();
 
   const employeeRegisterSchema = Yup.object().shape({
     birthDate: Yup.date().required("Doğum Tarihi zorunludur"),

@@ -5,14 +5,14 @@ import { Formik , Form} from "formik";
 import AuthService from "../services/AuthService";
 import HTextInput from "../utilities/customFormControls/HTextInput";
 
-export default function LoginForEmployer() {
+export default function LoginForPersonel() {
   let authService = new AuthService();
 
   const initialValues = { email: "", password: "" };
 
+  // const history = useHistory();
 
-
-  const employerLoginSchema = Yup.object().shape({
+  const personelLoginSchema = Yup.object().shape({
     email: Yup.string()
       .required("Email alanı zorunludur")
       .email("Geçerli bir email değil"),
@@ -29,10 +29,10 @@ export default function LoginForEmployer() {
       </Header>
     <Formik
       initialValues={initialValues}
-      validationSchema={employerLoginSchema}
+      validationSchema={personelLoginSchema}
       onSubmit={(values) => {
         authService
-          .loginForEmployer(values)
+          .loginForPersonel(values)
           .then((result) => console.log(result.data.data));
       }}
     >

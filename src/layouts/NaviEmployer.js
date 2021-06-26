@@ -1,5 +1,5 @@
 import React from "react";
-import { Dropdown, Menu, Image, Container } from "semantic-ui-react";
+import { Dropdown, Menu, Container } from "semantic-ui-react";
 
 export default function NaviEmployer() {
     return (

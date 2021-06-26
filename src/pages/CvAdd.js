@@ -1,11 +1,10 @@
-import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import * as Yup from "yup";
-import { Formik, Form, Field, FieldArray } from "formik";
+import { Formik, Form,  FieldArray } from "formik";
 import {
   Button,
   Grid,
-  GridColumn,
   Header,
   Segment,
   Label,
@@ -19,6 +18,14 @@ import CvService from "../services/CvService";
 
 export default function CvAdd() {
   let cvService = new CvService();
+  let { id } = useParams();
+    const [cv, SetCv] = useState({});
+    useEffect(() => {
+        let cvService = new CvService();
+        cvService
+          .getAllByEmployee_EmployeeId(id)
+          .then((result) => SetCv(result.data.data));
+      });
 
   const cvAddSchema = Yup.object().shape({
     article: Yup.string().required("Bu alanın doldurulması zorunludur"),
@@ -76,41 +83,41 @@ export default function CvAdd() {
   });
 
   const initialValues = {
-    article: "",
-    github: "",
-    linkedIn: "",
-    photo: "",
+    article: cv.article,
+    github: cv.github,
+    linkedIn:cv.linkedIn,
+    photo: cv.photo,
     //--experiances
     experiances: [
       {
-        finishDate: "",
-        startDate: "",
-        position: "",
-        workplaceName: "",
+        finishDate: cv.experiances.finishDate,
+        startDate: cv.experiances.startDate,
+        position: cv.experiances.position,
+        workplaceName: cv.experiances.workplaceName,
       },
     ],
 
     //--foreignLangs
     foreignLanguages: [
       {
-        language: "",
-        level: "",
+        language: cv.foreignLanguages.language,
+        level: cv.foreignLanguages.level,
       },
     ],
 
     //--langs
     langs: [
       {
-        usedLanguages: "",
+        usedLanguages: cv.langs.usedLanguages,
       },
     ],
     //--schools
     schools: [
       {
-        department: "",
-        finishDateSchool: "",
-        startDateSchool: "",
-        name: "",
+        department: cv.schools.department,
+        finishDateSchool: cv.schools.finishDateSchool,
+        startDateSchool: cv.schools.startDateSchool,
+        name: cv.schools.name,
       },
     ],
   };

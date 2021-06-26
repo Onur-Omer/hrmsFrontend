@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { Button, Segment, Grid, Header ,Label} from "semantic-ui-react";
+import { Button, Segment, Grid, Header } from "semantic-ui-react";
 import CityService from "../services/CityService";
 import PositionService from "../services/PositionService";
 import JobAdService from "../services/JobAdService";
@@ -94,14 +94,14 @@ export default function Deneme() {
               <label>Position</label>
               <Field as="select" name="positionId">
                 {positions.map((position) => (
-                  <option value="${position.id}">{position.name}</option>
+                  <option value={position.positionId}>{position.positionName}</option>
                 ))}
               </Field>
 
               <label>City</label>
               <Field as="select" name="cityId">
                 {cities.map((city) => (
-                  <option value="${city.id}">{city.name}</option>
+                  <option value={city.cityId}>{city.name}</option>
                 ))}
               </Field>
 
@@ -141,13 +141,6 @@ export default function Deneme() {
                 Finish
               </Button>
 
-              {/* const initialValues = {
-
-
-    firstDate: "",
-    lastDate: "",
-
-  }; */}
             </Segment>
           </Form>
         </Formik>

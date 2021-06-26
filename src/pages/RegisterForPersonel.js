@@ -8,16 +8,13 @@ import HTextInput from "../utilities/customFormControls/HTextInput";
 
 
 
-export default function RegisterForEmployer() {
+export default function RegisterForPersonel() {
   let authService = new AuthService();
 
-  const employerRegisterSchema = Yup.object().shape({
-    companyName: Yup.string().required("İsim zorunludur"),
-    website: Yup.string().required("Website zorunludur"),
-    phone: Yup.string()
-      .length(11, "0xxx ile başlayın")
-      .matches(/^[0-9]+$/, "Sadece rakam girilmelidir"),
 
+  const personelRegisterSchema = Yup.object().shape({
+    firstName: Yup.string().required("İsim zorunludur"),
+    lastName: Yup.string().required("Website zorunludur"),
     email: Yup.string()
       .required("Email alanı zorunludur")
       .email("Geçerli bir email değil"),
@@ -28,10 +25,9 @@ export default function RegisterForEmployer() {
   });
 
   const  initialValues= {
-      companyName: "",
+      firstName: "",
       email: "",
-      phone: "",
-      website: "",
+      lastName: "",
       password: "",
     }
    
@@ -44,28 +40,22 @@ export default function RegisterForEmployer() {
         </Header>
         <Formik
           initialValues={initialValues}
-          validationSchema={employerRegisterSchema}
+          validationSchema={personelRegisterSchema}
           onSubmit={(values) => {
             authService
-              .RegisterEmployer(values)
+              .registerPersonel(values)
               .then((result) => console.log(result.data.data));
           }}
         >
           <Form className="ui form">
             <Segment>
             
-              <label>Company Name</label>
-              <HTextInput name="companyName" placeholder="Company Name" />
+              <label>First Name</label>
+              <HTextInput name="firstName" placeholder="Name" />
 
-              <label>Website</label>
-              <HTextInput name="website" placeholder="Your Website" />
-
-              <label>Phone</label>
-              <HTextInput
-                name="phone"
-                placeholder="Phone Number"
-              />
-
+              <label>Last Name</label>
+              <HTextInput name="lastName" placeholder="Surname" />
+              
               <label>Email</label>
               <HTextInput name="email" placeholder="Email" />
 

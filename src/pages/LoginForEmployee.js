@@ -1,5 +1,4 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import { Button ,Grid,Header,Segment} from "semantic-ui-react";
 import { Formik , Form} from "formik";
@@ -11,7 +10,6 @@ export default function LoginForEmployee() {
 
   const initialValues = { email: "", password: "" };
 
-  // const history = useHistory();
 
   const employeeLoginSchema = Yup.object().shape({
     email: Yup.string()
