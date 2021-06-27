@@ -10,9 +10,7 @@ export default function LoginForEmployee() {
 
   const initialValues = { email: "", password: "" };
 
-  function handleLogin() {
-    
-  } 
+
 
   const employeeLoginSchema = Yup.object().shape({
     email: Yup.string()
@@ -20,7 +18,7 @@ export default function LoginForEmployee() {
       .email("Geçerli bir email değil"),
     password: Yup.string()
       .required("Şifre zorunludur")
-      .min(8, "Şifre en az 8 karakter uzunlugunda olmalıdır"),
+      .min(4, "Şifre en az 8 karakter uzunlugunda olmalıdır"),
   });
 
   return (
@@ -35,7 +33,7 @@ export default function LoginForEmployee() {
       onSubmit={(values) => {
         authService
           .loginForEmployee(values)
-          .then((result) => console.log(result.data.data));
+          .then((result) => localStorage.setItem("user",JSON.stringify(result.data.data)));
       }}
     >
       <Form className="ui form" >

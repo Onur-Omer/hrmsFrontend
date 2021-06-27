@@ -19,13 +19,14 @@ import CvService from "../services/CvService";
 export default function CvAdd() {
   let cvService = new CvService();
   let { id } = useParams();
+  
     const [cv, SetCv] = useState([]);
     useEffect(() => {
         let cvService = new CvService();
         cvService
           .getAllByEmployee_EmployeeId(id)
           .then((result) => SetCv(result.data.data));
-      });
+      },[]);
 
   const cvAddSchema = Yup.object().shape({
     article: Yup.string().required("Bu alanın doldurulması zorunludur"),

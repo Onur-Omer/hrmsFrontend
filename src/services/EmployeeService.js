@@ -7,6 +7,6 @@ export default class EmployeeService{
         return axios.get(baseApi+"api/employees/getAllEmployees")
     }
     getByEmployeeId(id){
-        return axios.get(baseApi+"api/employees/getByEmployeeId?id"+id)
+        return axios.get(baseApi+"api/employees/getByEmployeeId?id="+id)
     }
 }

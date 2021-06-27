@@ -63,9 +63,6 @@ export default function Deneme() {
       .then((result) => setPositions(result.data.data));
   }, []);
 
- 
-
-
   return (
     <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
       <Grid.Column style={{ maxWidth: 450 }}>
@@ -84,7 +81,6 @@ export default function Deneme() {
         >
           <Form className="ui form">
             <Segment>
-         
               <label>Title</label>
               <HTextInput name="title" placeholder="Title" />
 
@@ -94,7 +90,9 @@ export default function Deneme() {
               <label>Position</label>
               <Field as="select" name="positionId">
                 {positions.map((position) => (
-                  <option value={position.positionId}>{position.positionName}</option>
+                  <option value={position.positionId}>
+                    {position.positionName}
+                  </option>
                 ))}
               </Field>
 
@@ -107,23 +105,21 @@ export default function Deneme() {
 
               <label>Work Type</label>
               <Field as="select" name="workTimeId">
-                
-                  <option value="part-time">Part time</option>
-                  <option value="full-time">Full time</option>
-                
+                <option value="part-time">Part time</option>
+                <option value="full-time">Full time</option>
               </Field>
-
 
               <label>Work Place</label>
               <Field as="select" name="workPlaceId">
-                
-                  <option value="office">Office</option>
-                  <option value="home">Home</option>
-                
+                <option value="office">Office</option>
+                <option value="home">Home</option>
               </Field>
 
               <label>Quantity</label>
-              <HNumberInput name="numberOfEmployee" placeholder="How many workers" />
+              <HNumberInput
+                name="numberOfEmployee"
+                placeholder="How many workers"
+              />
 
               <label>Minimum Salary</label>
               <HNumberInput name="minSalary" placeholder="Minimum Salary" />
@@ -132,15 +128,14 @@ export default function Deneme() {
               <HNumberInput name="maxSalary" placeholder="Maximum Salary" />
 
               <label>First Date</label>
-              <HDateInput name="firstDate"/>
+              <HDateInput name="firstDate" />
 
               <label>Last Date</label>
-              <HDateInput name="lastDate"/>
+              <HDateInput name="lastDate" />
 
               <Button color="green" type="submit">
                 Finish
               </Button>
-
             </Segment>
           </Form>
         </Formik>

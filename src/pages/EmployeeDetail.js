@@ -1,28 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import NaviEmployee from "../layouts/NaviEmployee";
-import { useParams } from "react-router";
 import { Link } from "react-router-dom";
-import { Grid, Image, Card, Icon, Segment, Button } from "semantic-ui-react";
-import EmployeeService from "../services/EmployeeService";
+import { Grid, Image, Card, Icon,  Button } from "semantic-ui-react";
+
 import CvService from "../services/CvService"
 
 export default function EmployeeDetail() {
-  let { id } = useParams();
-  const [employee, SetEmployee] = useState([]);
-  const [cvs, SetCvs] = useState([]);
+  let cvService = new CvService();
+  let employee=JSON.parse(localStorage.getItem("user"))
+  
 
-  useEffect(() => {
-      let cvService = new CvService();
-      cvService
-        .getAllByEmployee_EmployeeId(id)
-        .then((result) => SetCvs(result.data.data));
-    });
-  useEffect(() => {
-    let employeeService = new EmployeeService();
-    employeeService
-      .getByEmployeeId(id)
-      .then((result) => SetEmployee(result.data.data));
-  });
+  cvService
+  .getAllByEmployee_EmployeeId(1)
+  .then((result) => localStorage.setItem("cvs",JSON.stringify(result.data.data)));
+
+  let cvs=JSON.parse(localStorage.getItem("cvs"))
+
 
   return (
     <div>
@@ -30,7 +23,7 @@ export default function EmployeeDetail() {
       <Grid centered>
         <Card>
           <Image
-            src="https://react.semantic-ui.com/images/avatar/large/matthew.png"
+            src={cvs[0].photo}
             wrapped
             ui={false}
           />
@@ -52,7 +45,7 @@ export default function EmployeeDetail() {
           {cvs.map((cv,index)=>( 
           <Card.Content extra key={cv.employeeCvId}>
             <div className="ui  buttons">
-            <Link to={`/cvShow${id}`}>
+            <Link to={`/cvShow2`}>
               <Button basic color="green">
                 Show Cv {index}
               </Button>
@@ -63,7 +56,7 @@ export default function EmployeeDetail() {
           <Card.Content extra>
           <div className="ui buttons">
             
-            <Link to={`/cvAdd${id}`}>
+            <Link to={`/cvAdd2`}>
               <Button basic color="red">
                 Add
               </Button>
