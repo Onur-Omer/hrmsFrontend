@@ -19,7 +19,7 @@ import CvService from "../services/CvService";
 export default function CvAdd() {
   let cvService = new CvService();
   let { id } = useParams();
-    const [cv, SetCv] = useState({});
+    const [cv, SetCv] = useState([]);
     useEffect(() => {
         let cvService = new CvService();
         cvService

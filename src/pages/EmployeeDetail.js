@@ -4,11 +4,19 @@ import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { Grid, Image, Card, Icon, Segment, Button } from "semantic-ui-react";
 import EmployeeService from "../services/EmployeeService";
+import CvService from "../services/CvService"
 
 export default function EmployeeDetail() {
   let { id } = useParams();
-  const [employee, SetEmployee] = useState({});
+  const [employee, SetEmployee] = useState([]);
+  const [cvs, SetCvs] = useState([]);
 
+  useEffect(() => {
+      let cvService = new CvService();
+      cvService
+        .getAllByEmployee_EmployeeId(id)
+        .then((result) => SetCvs(result.data.data));
+    });
   useEffect(() => {
     let employeeService = new EmployeeService();
     employeeService
@@ -41,16 +49,23 @@ export default function EmployeeDetail() {
               {employee.birthday}
             </a>
           </Card.Content>
-          <Card.Content extra>
-          <div className="ui two buttons">
+          {cvs.map((cv,index)=>( 
+          <Card.Content extra key={cv.employeeCvId}>
+            <div className="ui  buttons">
             <Link to={`/cvShow${id}`}>
               <Button basic color="green">
-                Show Cv
+                Show Cv {index}
               </Button>
             </Link>
+            </div>
+          </Card.Content>
+          ))}
+          <Card.Content extra>
+          <div className="ui buttons">
+            
             <Link to={`/cvAdd${id}`}>
               <Button basic color="red">
-                Add/Update Cv
+                Add
               </Button>
             </Link>
           </div>

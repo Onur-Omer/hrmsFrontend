@@ -1,19 +1,20 @@
 import axios from "axios";
 
+let baseApi="https://hrms--backend.herokuapp.com/"
 export default class AuthService {
   registerEmployee(values) {
-    return axios.post("http://localhost:8080/api/auth/registerEmployee",values);
+    return axios.post(baseApi+"api/auth/registerEmployee",values);
   }
   registerEmployer(values) {
-    return axios.post("http://localhost:8080/api/auth/registerEmployer",values);
+    return axios.post(baseApi+"api/auth/registerEmployer",values);
   }
 
   registerPersonel(values) {
-    return axios.post("http://localhost:8080/api/auth/registerPersonel",values);
+    return axios.post(baseApi+"api/auth/registerPersonel",values);
   }
   loginForEmployee(values) {
     return axios.post(
-      "http://localhost:8080/api/auth/loginForEmployee",
+      baseApi+ "api/auth/loginForEmployee",
       values
     );
   }
