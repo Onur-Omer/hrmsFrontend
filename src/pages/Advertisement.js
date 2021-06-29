@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Icon, Menu, Table } from "semantic-ui-react";
 import NaviEmployee from "../layouts/NaviEmployee";
+import NaviEmployer from "../layouts/NaviEmployer";
+import NaviMain from "../layouts/NaviMain";
 import SidebarEmployee from "../layouts/SidebarEmployee";
 import { Grid } from "semantic-ui-react";
 import { Container } from "semantic-ui-react";
@@ -13,10 +15,31 @@ export default function Advertisement() {
     let jobAdService = new JobAdService();
     jobAdService.getJobAd().then((result) => setJobAds(result.data.data));
   }, []);
+  let auth=localStorage.getItem("auth")
 
   return (
     <div>
-      <NaviEmployee />
+      {(() => {
+        if (auth==="employee") {
+          return (
+            <div><NaviEmployee /></div>
+          )
+        } else if (auth==="employer") {
+          return (
+            <div><NaviEmployer/></div>
+          )
+        } else if(auth==="personel"){
+          return (
+            <div>catch all</div>
+          )
+        }
+        else {
+          return(
+            <div><NaviMain/></div>
+          )
+        }
+      })()}
+      
       <Container className="main">
         <Grid>
           <Grid.Row>

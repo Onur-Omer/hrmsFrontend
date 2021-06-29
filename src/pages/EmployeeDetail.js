@@ -1,69 +1,110 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NaviEmployee from "../layouts/NaviEmployee";
+//import { Route } from "react-router";
 import { Link } from "react-router-dom";
-import { Grid, Image, Card, Icon,  Button } from "semantic-ui-react";
+import {
+  Grid,
+  Image,
+  Card,
+  Icon,
+  Button,
+  Label,
+  Segment,
 
-import CvService from "../services/CvService"
+} from "semantic-ui-react";
+
+import CvService from "../services/CvService";
 
 export default function EmployeeDetail() {
-  let cvService = new CvService();
-  let employee=JSON.parse(localStorage.getItem("user"))
   
+  let employee = JSON.parse(localStorage.getItem("user"));
+  
+  const [cvs, setCvs] = useState([]);
 
-  cvService
-  .getAllByEmployee_EmployeeId(1)
-  .then((result) => localStorage.setItem("cvs",JSON.stringify(result.data.data)));
-
-  let cvs=JSON.parse(localStorage.getItem("cvs"))
-
-
+  useEffect(() => {
+    let cvService = new CvService();
+    cvService.getAllByEmployee_EmployeeId(employee.employeeId).then((result) => setCvs(result.data.data));
+  }, []);
+console.log(cvs)
+ 
   return (
     <div>
       <NaviEmployee />
-      <Grid centered>
-        <Card>
-          <Image
-            src={cvs[0].photo}
-            wrapped
-            ui={false}
-          />
-          <Card.Content>
-            <Card.Header>
-              {employee.firstName} {employee.lastName}
-            </Card.Header>
-            <Card.Meta>
-              <span className="date">{employee.identityNumber}</span>
-            </Card.Meta>
-            <Card.Description>{employee.email}</Card.Description>
-          </Card.Content>
-          <Card.Content extra>
-            <a>
-              <Icon name="user" />
-              {employee.birthday}
-            </a>
-          </Card.Content>
-          {cvs.map((cv,index)=>( 
-          <Card.Content extra key={cv.employeeCvId}>
-            <div className="ui  buttons">
-            <Link to={`/cvShow2`}>
-              <Button basic color="green">
-                Show Cv {index}
-              </Button>
-            </Link>
-            </div>
-          </Card.Content>
-          ))}
-          <Card.Content extra>
-          <div className="ui buttons">
-            
-            <Link to={`/cvAdd2`}>
-              <Button basic color="red">
-                Add
-              </Button>
-            </Link>
-          </div>
-          </Card.Content>
-        </Card>
+      <Grid verticalAlign="middle" style={{ height: "100vh" }}>
+
+        <Grid.Column width={3}></Grid.Column>
+
+        <Grid.Column width={3}>
+
+        <Grid.Row centered><Grid.Column width={3}>
+          <Card>
+            <Image src="https://react.semantic-ui.com/images/avatar/large/daniel.jpg" wrapped ui={false} />
+            <Card.Content>
+              <Card.Header>
+                {employee.firstName} {employee.lastName}
+              </Card.Header>
+
+              <Card.Description>{employee.email}</Card.Description>
+            </Card.Content>
+
+            <Card.Content extra>
+              
+                <Icon name="user" />
+                {employee.birthday}
+              
+            </Card.Content>
+          </Card>
+        </Grid.Column>
+        </Grid.Row>
+        </Grid.Column>
+        <Grid.Column width={3}>
+          <Grid divided>
+            <Label>Your Cvs</Label>
+            <Grid.Row >
+              <Grid.Column>
+                {cvs.map((cv, index) => (
+                  <Segment key={index}>
+                    <Button.Group>
+                      <Label color="teal" floating>
+                        {index + 1}
+                      </Label>
+                      <Link to={`/cvShow/${cv.employeeCvId}`}>
+                        <Button
+                        icon="edit"
+                          basic
+                          color="green"
+                          
+                        >
+                        </Button>
+                        </Link>
+                      <Button.Or />
+                      <Link to={`/cvAdd`}>
+                        <Button
+                        icon="download"
+                          basic
+                          color="red"
+                          
+                        >
+                        </Button>
+                      </Link>
+                      <Button.Or />
+                      <Link to={`/cvAdd`}>
+                        <Button
+                        icon="trash"
+                          basic
+                          color="red"
+
+                        >
+                        </Button>
+                      </Link>
+                    </Button.Group>
+                  </Segment>
+                ))}
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Grid.Column>
+      
       </Grid>
     </div>
   );

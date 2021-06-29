@@ -6,10 +6,11 @@ import AuthService from "../services/AuthService";
 import HNumberInput from "../utilities/customFormControls/HNumberInput";
 import HTextInput from "../utilities/customFormControls/HTextInput";
 import HDateInput from "../utilities/customFormControls/HDateInput";
+import NaviMain from "../layouts/NaviMain";
+import { Link } from "react-router-dom";
 
 export default function RegisterForEmployee() {
   let authService = new AuthService();
-
 
   const employeeRegisterSchema = Yup.object().shape({
     birthDate: Yup.date().required("Doğum Tarihi zorunludur"),
@@ -37,50 +38,67 @@ export default function RegisterForEmployee() {
   };
 
   return (
-    <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
-      <Grid.Column style={{ maxWidth: 450 }}>
-        <Header as="h2" color="teal" textAlign="center">
-          Register
-        </Header>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={employeeRegisterSchema}
-          onSubmit={(values) => {
-            authService
-              .RegisterEmployee(values)
-              .then((result) => console.log(result.data.data));
-          }}
-        >
-          <Form className="ui form">
-            <Segment>
-              <label>First Name</label>
-              <HTextInput name="firstName" placeholder="First Name" />
+    <div>
+      <NaviMain />
+      <Grid
+        textAlign="center"
+        style={{ height: "100vh" }}
+        verticalAlign="middle"
+      >
+        <Grid.Column style={{ maxWidth: 450 }}>
+          <Header as="h2" color="teal" textAlign="center">
+            Register
+          </Header>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={employeeRegisterSchema}
+            onSubmit={(values) => {
+              authService
+                .RegisterEmployee(values)
+                .then((result) => console.log(result.data.data));
+            }}
+          >
+            <Form className="ui form">
+              <Segment>
+                <label>First Name</label>
+                <HTextInput name="firstName" placeholder="First Name" />
 
-              <label>Last Name</label>
-              <HTextInput name="lastName" placeholder="Last Name" />
+                <label>Last Name</label>
+                <HTextInput name="lastName" placeholder="Last Name" />
 
-              <label>National Number</label>
-              <HNumberInput
-                name="identityNumber"
-                placeholder="National Number"
-              />
+                <label>National Number</label>
+                <HNumberInput
+                  name="identityNumber"
+                  placeholder="National Number"
+                />
 
-              <label>Birthdate</label>
-              <HDateInput name="birthDate" />
+                <label>Birthdate</label>
+                <HDateInput name="birthDate" />
 
-              <label>Email</label>
-              <HTextInput name="email" placeholder="Email" />
+                <label>Email</label>
+                <HTextInput name="email" placeholder="Email" />
 
-              <label>Password</label>
-              <HTextInput name="password" placeholder="Password" />
+                <label>Password</label>
+                <HTextInput name="password" placeholder="Password" />
 
-              <Button color="green" type="submit">
-                Register
-              </Button>
-            </Segment>
-          </Form>
-        </Formik>
-      </Grid.Column>
-    </Grid>
+                <Link to={`/loginForEmployee`}>
+                  <Button color="green" type="submit">
+                    Register
+                  </Button>
+                </Link>
+              </Segment>
+            </Form>
+          </Formik>
+          <Segment>
+            <Link to={`/registerForEmployer`}>
+              <Button primary>Are you Employer?</Button>
+            </Link>
+            <Link to={`/registerForPersonel`}>
+              <Button primary>For personel</Button>
+            </Link>
+          </Segment>
+        </Grid.Column>
+      </Grid>
+    </div>
   );
 }

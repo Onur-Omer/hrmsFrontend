@@ -1,6 +1,6 @@
 import React from "react";
-
-import { PDFDownloadLink } from '@react-pdf/renderer';
+import { Header, Icon, Grid } from "semantic-ui-react";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 import {
   Text,
@@ -11,7 +11,7 @@ import {
   StyleSheet,
 } from "@react-pdf/renderer";
 
-import Header from "./Header";
+import Headers from "./Header";
 import Skills from "./Skills";
 import Education from "./Education";
 import Experience from "./Experience";
@@ -57,6 +57,8 @@ const styles = StyleSheet.create({
   },
 });
 
+let cvData = JSON.parse(localStorage.getItem("cvs"));
+let clickedCv = JSON.parse(localStorage.getItem("clickedCv"));
 
 const Resume = () => (
   <Document
@@ -66,13 +68,10 @@ const Resume = () => (
     title="Resume"
   >
     <Page size="A4" style={styles.page}>
-      <Header />
+      <Headers />
       <View style={styles.container}>
         <View style={styles.leftColumn}>
-          <Image
-            src="https://react-pdf.org/static/images/luke.jpg"
-            style={styles.image}
-          />
+          <Image src={cvData[clickedCv].photo} style={styles.image} />
           <Education />
           <Skills />
         </View>
@@ -85,9 +84,22 @@ const Resume = () => (
   </Document>
 );
 
-export default () => (
-
-<PDFDownloadLink document={<Resume />} fileName="somename.pdf">
-      {({ loading}) => (loading ? 'Loading document...' : 'Download now!')}
-      </PDFDownloadLink>
-  )
+export default  (
+  <PDFDownloadLink document={<Resume />} fileName="somename.pdf">
+   
+    <div> 
+      <Grid
+        textAlign="center"
+        style={{ height: "100vh" }}
+        verticalAlign="middle"
+      >
+        <Grid.Column style={{ maxWidth: 450 }}>
+          <Header as="h2" icon textAlign="center">
+            <Icon name="download" circular />
+            <Header.Content>Download</Header.Content>
+          </Header>
+        </Grid.Column>
+      </Grid>
+    </div>
+  </PDFDownloadLink>
+);

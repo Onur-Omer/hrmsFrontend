@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import React from "react";
 import * as Yup from "yup";
 import { Formik, Form,  FieldArray } from "formik";
 import {
@@ -18,15 +17,8 @@ import CvService from "../services/CvService";
 
 export default function CvAdd() {
   let cvService = new CvService();
-  let { id } = useParams();
   
-    const [cv, SetCv] = useState([]);
-    useEffect(() => {
-        let cvService = new CvService();
-        cvService
-          .getAllByEmployee_EmployeeId(id)
-          .then((result) => SetCv(result.data.data));
-      },[]);
+  
 
   const cvAddSchema = Yup.object().shape({
     article: Yup.string().required("Bu alanın doldurulması zorunludur"),
@@ -83,42 +75,45 @@ export default function CvAdd() {
     ),
   });
 
+  // let cvData=JSON.parse(localStorage.getItem("cvs"))
+  // let clickedCv=JSON.parse(localStorage.getItem("clickedCv"))
+
   const initialValues = {
-    article: cv.article,
-    github: cv.github,
-    linkedIn:cv.linkedIn,
-    photo: cv.photo,
+    article: "",
+    github: "",
+    linkedIn:"",
+    photo: "",
     //--experiances
     experiances: [
       {
-        finishDate: cv.experiances.finishDate,
-        startDate: cv.experiances.startDate,
-        position: cv.experiances.position,
-        workplaceName: cv.experiances.workplaceName,
+        finishDate: "",
+        startDate: "",
+        position: "",
+        workplaceName: "",
       },
     ],
 
     //--foreignLangs
     foreignLanguages: [
       {
-        language: cv.foreignLanguages.language,
-        level: cv.foreignLanguages.level,
+        language: "",
+        level: "",
       },
     ],
 
     //--langs
     langs: [
       {
-        usedLanguages: cv.langs.usedLanguages,
+        usedLanguages: "",
       },
     ],
     //--schools
     schools: [
       {
-        department: cv.schools.department,
-        finishDateSchool: cv.schools.finishDateSchool,
-        startDateSchool: cv.schools.startDateSchool,
-        name: cv.schools.name,
+        department: "",
+        finishDateSchool: "",
+        startDateSchool: "",
+        name: "",
       },
     ],
   };
@@ -144,7 +139,7 @@ export default function CvAdd() {
                 <Label>About You</Label>
                 <Segment>
                   <label>Your Photo</label>
-                  <HTextInput name="photo" placeholder="Photo" />
+                  <HTextInput name="photo" placeholder="Photo"/>
 
                   <label>Github</label>
                   <HTextInput name="github" placeholder="Github adress" />

@@ -37,15 +37,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default () => (
+let userData=JSON.parse(localStorage.getItem("user"))
+
+export default  (
   <View style={styles.container}>
     <View style={styles.detailColumn}>
-      <Text style={styles.name}>Luke Skywalker</Text>
-      <Text style={styles.subtitle}>Jedi Master</Text>
+      <Text style={styles.name}>{userData.firstName } {userData.lastName}</Text>
+      <Text style={styles.subtitle}>{userData.birthday}</Text>
     </View>
     <View style={styles.linkColumn}>
-      <Link href="mailto:luke@theforce.com" style={styles.link}>
-        luke@theforce.com
+      <Link  style={styles.link}>
+        {userData.email}
       </Link>
     </View>
   </View>

@@ -4,7 +4,7 @@ import React from 'react';
 import { Text, View, StyleSheet } from '@react-pdf/renderer';
 
 import Title from './Title';
-import List, { Item } from './List';
+
 
 const styles = StyleSheet.create({
   title: {
@@ -17,28 +17,40 @@ const styles = StyleSheet.create({
   },
 });
 
-const SkillEntry = ({ name, skills }) => (
+let LangData=JSON.parse(localStorage.getItem("cvs"))
+let clickedCv=JSON.parse(localStorage.getItem("clickedCv"))
+
+const SkillEntryForeignLangs = ({ language,level}) => (
   <View>
-    <Text style={styles.title}>{name}</Text>
-    <List>
-      {skills.map((skill, i) => (
-        <Item key={i}>{skill}</Item>
-      ))}
-    </List>
+    <Text style={styles.title}>{language}</Text>
+    <Text style={styles.skills}>Level={level}</Text>
+  </View>
+);
+
+const SkillEntryProgramingLangs = ({ usedLanguages}) => (
+  <View>
+    <Text style={styles.title}>{usedLanguages}</Text>
   </View>
 );
 
 const Skills = () => (
   <View>
-    <Title>Skills</Title>
-    <SkillEntry
-      name="Combat Abilities"
-      skills={[
-        'Completed Jedi Master training and built a lightsaber from scratch in order to do battle against the Empire',
-        'Defeated the Rancor and rescued Princess Leia from Jabba the Hutt',
-        'Competent fighter pilot as well as an excelent shot with nearly any weapon',
-      ]}
-    />
+    <Title>Foreign Languages</Title>
+    {LangData[clickedCv].foreignLanguages.map(({ cvForeignLanguageId,language,level }) => (
+      <SkillEntryForeignLangs
+        language={language}
+        level={level}
+        key={cvForeignLanguageId}
+      />
+    ))}
+
+    <Title>Programing Languages</Title>
+    {LangData[clickedCv].langs.map(({ cvSoftwareLangId,usedLanguages }) => (
+      <SkillEntryProgramingLangs
+        usedLanguages={usedLanguages}
+        key={cvSoftwareLangId}
+      />
+    ))}
   </View>
 );
 

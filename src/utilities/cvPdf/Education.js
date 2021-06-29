@@ -18,11 +18,34 @@ const styles = StyleSheet.create({
   },
 });
 
-export default () => (
+const SchoolEntry = ({ name, startDateSchool, finishDateSchool, department }) => {
+  
+  const date = `${startDateSchool} | ${finishDateSchool}`;
+  return (
+    <div>
+    <Text style={styles.school}>{name}</Text>
+    <Text style={styles.degree}>{department}</Text>
+    <Text style={styles.candidate}>{date}</Text>
+    </div>
+  );
+};
+
+let schoolData=JSON.parse(localStorage.getItem("cvs"))
+let clickedCv=JSON.parse(localStorage.getItem("clickedCv"))
+
+export default (
   <View style={styles.container}>
     <Title>Education</Title>
-    <Text style={styles.school}>Jedi Academy</Text>
-    <Text style={styles.degree}>Jedi Master</Text>
-    <Text style={styles.candidate}>A long, long time ago</Text>
+    
+    {schoolData[clickedCv].schools.map(({ cvSchoolId,name, startDateSchool, finishDateSchool, department }) => (
+      
+      <SchoolEntry
+        name={name}
+        startDateSchool={startDateSchool}
+        finishDateSchool={finishDateSchool}
+        key={cvSchoolId}
+        department={department}
+      />
+    ))}
   </View>
 );

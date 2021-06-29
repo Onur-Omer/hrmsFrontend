@@ -1,6 +1,7 @@
 import React from "react";
 import NaviMain from "../layouts/NaviMain";
 import { Image, Grid, Header, Button } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 
 export default function Main() {
   return (
@@ -29,9 +30,12 @@ export default function Main() {
               Welcome to Java-React Project
             </Header>
             <br />
+            
+            <Link to={`/advertisement`}>
             <Button primary size="huge" fluid style={{ marginTop: "4em" }}>
               Advertisements
             </Button>
+                </Link>
           </Grid.Column>
           <Grid.Column>
             <Image
